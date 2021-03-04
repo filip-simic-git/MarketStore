@@ -1,14 +1,21 @@
 package com.market.clients;
 
+import com.market.storage.MarketStore;
+
 import java.util.Objects;
 
 public class Owner {
-    String fullName;
-    int ownerID;
+    private String fullName;
+    private int ownerID;
 
-    public Owner(String fullName, int ownerID) {
-        this.fullName = fullName;
-        this.ownerID = ownerID;
+    public Owner(String fullName, int ownerID) throws Exception {
+        if (fullName.length() < 4 || fullName.length() > 25 || MarketStore.ownersIDList.contains(ownerID)) {
+            throw new Exception("Error! Enter the appropriate information. Owner's name must be 4 to 25 characters long and each owner must have unique ID.");
+        } else {
+            this.fullName = fullName;
+            this.ownerID = ownerID;
+            MarketStore.ownersIDList.add(ownerID);
+        }
     }
 
     public String getFullName() {

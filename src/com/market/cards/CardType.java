@@ -1,4 +1,4 @@
-package com.market.tools;
+package com.market.cards;
 
 public enum CardType {
     BRONZE, SILVER, GOLD

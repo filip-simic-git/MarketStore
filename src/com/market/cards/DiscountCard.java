@@ -1,4 +1,4 @@
-package com.market.tools;
+package com.market.cards;
 
 import com.market.clients.Owner;
 
@@ -6,13 +6,16 @@ import java.text.DecimalFormat;
 import java.util.Objects;
 
 public class DiscountCard {
-    CardType cardType;
-    Owner owner;
-    double turnover;
-    double valueOfPurchase;
-    double discountRate;
+    private CardType cardType;  // ovo treba zameniti sa vise odgovarajucih klasa kako bi se resio problem: No inheritance, abstraction and polymorphism!
+    private Owner owner;
+    private double turnover;
+    private double valueOfPurchase;
+    private double discountRate;
 
-    public DiscountCard(CardType cardType, Owner owner, double turnover, double valueOfPurchase) {
+    public DiscountCard(CardType cardType, Owner owner, double turnover, double valueOfPurchase) throws Exception {
+        if (turnover < 0 || valueOfPurchase < 0 || owner == null)
+            throw new Exception("Error! Enter the appropriate information. Current purchase and turnover value mustn't be negative and owner must exist.");
+
         this.cardType = cardType;
         this.owner = owner;
         this.turnover = turnover;
@@ -36,14 +39,13 @@ public class DiscountCard {
                 break;
 
             case GOLD:
-                byte growth = 0;
+                double growth = 0;
 
-                for (int i = 100; i <= turnover; i += 100) {
-                    growth++;
-                    if (growth == 8)
-                        break;
+                while (growth < 0.08) {
+                    growth += 0.01;
+                    turnover -= 100;
                 }
-                discountRate = (float) (0.02 + growth * 0.01);
+                discountRate = 0.02 + growth;
                 break;
         }
     }
